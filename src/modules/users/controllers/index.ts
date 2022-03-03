@@ -1,8 +1,10 @@
 import { Request, Response } from 'express'
 
+import {responseData} from '../services';
 
-export function getUsers(req: Request, res: Response) {
-    res.json({data: 'teste passou'});
+
+export function getUsers(request: Request, response: Response) {
+    response.json(responseData);
 }
 
 // const getProduct = ((req, res) => {
