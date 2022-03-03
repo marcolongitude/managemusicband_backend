@@ -4,10 +4,15 @@ import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import swaggerFile from "./swagger.json";
 
+// import router = require('./routes/authenticateUserRoute');
+
+import routerUser from './routes/authenticateUserRoute';
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/user', routerUser);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
