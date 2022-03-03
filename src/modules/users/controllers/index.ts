@@ -1,10 +1,18 @@
 import { Request, Response } from 'express'
 
-import {responseData} from '../services';
+import {responseData, createUserData} from '../services';
 
 
-export function getUsers(request: Request, response: Response) {
+export const getUsers = (request: Request, response: Response) => {
     response.json(responseData);
+}
+
+export const createUser = async (request: Request, response: Response) => {
+    const result = await createUserData();
+
+    if(result) {
+        response.status(200).json(result);
+    }
 }
 
 // const getProduct = ((req, res) => {
