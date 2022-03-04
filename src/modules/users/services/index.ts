@@ -1,4 +1,3 @@
-import { response, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,15 +14,14 @@ interface IUser {
     email_users: string;
 }
 
+export const getUsersData = async (): Promise<IUser[]> => {
+    const listUsers = await model.users.findMany();
 
-export const responseData = {
-    "data": "teste passou"
+    return listUsers;
 }
 
+
 export const createUserData = async ({name_users, email_users}: IUserDTO): Promise<void> => {
-    console.log('xxxxxxxxxxxxxxxxxxxx')
-    console.log(name_users, email_users)
-    console.log('xxxxxxxxxxxxxxxxxxxx')
     await model.users.create({
         data: {
             id_users: uuidv4(),
@@ -31,9 +29,4 @@ export const createUserData = async ({name_users, email_users}: IUserDTO): Promi
             email_users: email_users
         }
     })
-}
-
-export default {
-    createUserData,
-    responseData
 }
