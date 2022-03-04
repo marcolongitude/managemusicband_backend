@@ -1,18 +1,26 @@
-import express from 'express'
-const usersRoutes = express.Router()
+import express from "express";
 
-import {deleteUserId, updateUserId, getUserEmail, getUserById ,getUsers, createUser } from '../modules/users/controllers/';
+import {
+  deleteUserId,
+  updateUserId,
+  getUserEmail,
+  getUserById,
+  getUsers,
+  createUser,
+} from "../modules/users/controllers";
 
-usersRoutes.get('/', getUsers);
+const usersRoutes = express.Router();
 
-usersRoutes.get('/id/:id_users', getUserById);
+usersRoutes.get("/", getUsers);
 
-usersRoutes.get('/email/:email_users', getUserEmail);
+usersRoutes.get("/id/:id_users", getUserById);
 
-usersRoutes.put('/', updateUserId);
+usersRoutes.get("/email/:email_users", getUserEmail);
 
-usersRoutes.delete('/:id_users', deleteUserId);
+usersRoutes.put("/", updateUserId);
 
-usersRoutes.post('/', createUser);
+usersRoutes.delete("/:id_users", deleteUserId);
 
-export  {usersRoutes} 
+usersRoutes.post("/", createUser);
+
+export { usersRoutes };
