@@ -1,11 +1,13 @@
 import express from 'express'
 const usersRoutes = express.Router()
 
-import { getUser ,getUsers, createUser } from '../modules/users/controllers/';
+import { getUserEmail, getUserById ,getUsers, createUser } from '../modules/users/controllers/';
 
 usersRoutes.get('/', getUsers);
 
-usersRoutes.get('/:id_users', getUser)
+usersRoutes.get('/id/:id_users', getUserById);
+
+usersRoutes.get('/email/:email_users', getUserEmail);
 
 usersRoutes.post('/', createUser);
 

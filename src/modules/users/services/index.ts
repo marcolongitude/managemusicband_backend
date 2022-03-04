@@ -9,7 +9,7 @@ interface IUserDTO {
 }
 
 interface IUser {
-    id_users: string;
+    id_users?: string;
     name_users?: string;
     email_users?: string;
 }
@@ -20,10 +20,20 @@ export const getUsersData = async (): Promise<IUser[]> => {
     return listUsers;
 }
 
-export const getUserData = async ({id_users}: IUser): Promise<IUser> => {
+export const getUserByIdData = async ({id_users}: IUser): Promise<IUser> => {
     const user = await model.users.findUnique({
         where: {
             id_users: id_users
+        }
+    })
+
+    return user;
+}
+
+export const getUserByEmailData = async ({email_users}: IUser): Promise<IUser> => {
+    const user = await model.users.findFirst({
+        where: {
+            email_users: email_users
         }
     })
 
