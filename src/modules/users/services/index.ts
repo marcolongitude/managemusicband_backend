@@ -40,6 +40,19 @@ export const getUserByEmailData = async ({email_users}: IUser): Promise<IUser> =
     return user;
 }
 
+export const updateUserById = async ({id_users, name_users}: IUser): Promise<IUser> => {
+    const user = await model.users.update({
+        where: {
+            id_users: id_users
+        },
+        data: {
+            name_users: name_users
+        }
+    })
+
+    return user;
+}
+
 
 export const createUserData = async ({name_users, email_users}: IUserDTO): Promise<void> => {
     await model.users.create({
