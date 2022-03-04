@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import {updateUserById, getUserByEmailData, getUserByIdData, getUsersData, createUserData} from '../services';
+import {deleteUserById, updateUserById, getUserByEmailData, getUserByIdData, getUsersData, createUserData} from '../services';
 
 
 export const getUsers = async (request: Request, response: Response) => {
@@ -51,5 +51,12 @@ export const createUser = async (request: Request, response: Response) => {
     await createUserData({name_users, email_users});
 
     return response.status(200).send();
+}
 
+export const deleteUserId = async (request: Request, response: Response) => {
+    const { id_users } = request.params;
+
+    await deleteUserById({id_users});
+
+    return response.status(200).send();
 }

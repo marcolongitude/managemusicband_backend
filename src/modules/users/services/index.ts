@@ -63,3 +63,11 @@ export const createUserData = async ({name_users, email_users}: IUserDTO): Promi
         }
     })
 }
+
+export const deleteUserById = async ({id_users}: IUser): Promise<void> => {
+    await model.users.delete({
+        where: {
+            id_users
+        }
+    })
+}
