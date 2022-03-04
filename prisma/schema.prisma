@@ -8,7 +8,8 @@ datasource db {
 }
 
 model users {
-  id_users    String @id @db.VarChar(50)
-  name_users  String @db.VarChar(100)
-  email_users String @db.VarChar(65)
+  id_users    String  @id @unique(map: "id_users_UNIQUE") @db.VarChar(50)
+  name_users  String  @db.VarChar(100)
+  email_users String  @unique(map: "email_users_UNIQUE") @db.VarChar(95)
+  userscol    String? @db.VarChar(45)
 }
