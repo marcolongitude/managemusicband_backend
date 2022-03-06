@@ -47,9 +47,9 @@ export const updateUserId = async (request: Request, response: Response) => {
 };
 
 export const createUser = async (request: Request, response: Response) => {
-    const { name_users, email_users } = request.body;
+    const { name_users, email_users, permission } = request.body;
 
-    await createUserData({ name_users, email_users });
+    await createUserData({ name_users, email_users, permission });
 
     return response.status(200).send();
 };

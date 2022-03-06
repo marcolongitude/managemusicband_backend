@@ -8,6 +8,7 @@ interface IUser {
     id_users: string;
     name_users: string;
     email_users: string;
+    permission: "super" | "admin" | "comum";
 }
 
 export const getUsersData = async (): Promise<IUser[]> => {
@@ -59,12 +60,14 @@ export const updateUserById = async ({
 export const createUserData = async ({
     name_users,
     email_users,
+    permission,
 }: Omit<IUser, "id_users">): Promise<void> => {
     await model.users.create({
         data: {
             id_users: uuidv4(),
             name_users,
             email_users,
+            permission,
         },
     });
 };
