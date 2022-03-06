@@ -1,18 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient as Model } from "@prisma/client";
 
-const model = new PrismaClient();
-
-interface IUserDTO {
-    name_users: string;
-    email_users: string;
-}
+const model = new Model();
 
 interface IUser {
-    id_users?: string;
-    name_users?: string;
-    email_users?: string;
+    id_users: string;
+    name_users: string;
+    email_users: string;
 }
 
 export const getUsersData = async (): Promise<IUser[]> => {
@@ -21,7 +16,9 @@ export const getUsersData = async (): Promise<IUser[]> => {
     return listUsers;
 };
 
-export const getUserByIdData = async ({ id_users }: IUser): Promise<IUser> => {
+export const getUserByIdData = async ({
+    id_users,
+}: Pick<IUser, "id_users">): Promise<IUser> => {
     const user = await model.users.findUnique({
         where: {
             id_users,
@@ -33,7 +30,7 @@ export const getUserByIdData = async ({ id_users }: IUser): Promise<IUser> => {
 
 export const getUserByEmailData = async ({
     email_users,
-}: IUser): Promise<IUser> => {
+}: Pick<IUser, "email_users">): Promise<IUser> => {
     const user = await model.users.findFirst({
         where: {
             email_users,
@@ -46,7 +43,7 @@ export const getUserByEmailData = async ({
 export const updateUserById = async ({
     id_users,
     name_users,
-}: IUser): Promise<IUser> => {
+}: Pick<IUser, "id_users" | "name_users">): Promise<IUser> => {
     const user = await model.users.update({
         where: {
             id_users,
@@ -62,7 +59,7 @@ export const updateUserById = async ({
 export const createUserData = async ({
     name_users,
     email_users,
-}: IUserDTO): Promise<void> => {
+}: Omit<IUser, "id_users">): Promise<void> => {
     await model.users.create({
         data: {
             id_users: uuidv4(),
@@ -72,7 +69,9 @@ export const createUserData = async ({
     });
 };
 
-export const deleteUserById = async ({ id_users }: IUser): Promise<void> => {
+export const deleteUserById = async ({
+    id_users,
+}: Pick<IUser, "id_users">): Promise<void> => {
     await model.users.delete({
         where: {
             id_users,

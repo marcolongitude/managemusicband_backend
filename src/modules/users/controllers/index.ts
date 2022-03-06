@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+import { CustomError } from "../../../appError/custom-error.model";
 import {
     deleteUserById,
     updateUserById,
@@ -13,8 +14,7 @@ export const getUsers = async (request: Request, response: Response) => {
     const result = await getUsersData();
 
     if (result) return response.status(200).json({ data: result });
-
-    return response.status(500).json({ message: "deu ruim" });
+    throw new CustomError("Users not found", 404);
 };
 
 export const getUserById = async (request: Request, response: Response) => {
@@ -22,9 +22,10 @@ export const getUserById = async (request: Request, response: Response) => {
 
     const result = await getUserByIdData({ id_users });
 
-    if (result) return response.status(200).json({ data: result });
+    console.log(result);
 
-    return response.status(500).json({ message: "deu ruim" });
+    if (result) return response.status(200).json({ data: result });
+    throw new CustomError("Users not found", 404);
 };
 
 export const getUserEmail = async (request: Request, response: Response) => {
@@ -33,8 +34,7 @@ export const getUserEmail = async (request: Request, response: Response) => {
     const result = await getUserByEmailData({ email_users });
 
     if (result) return response.status(200).json({ data: result });
-
-    return response.status(500).json({ message: "deu ruim" });
+    throw new CustomError("Users not found", 404);
 };
 
 export const updateUserId = async (request: Request, response: Response) => {
@@ -43,8 +43,7 @@ export const updateUserId = async (request: Request, response: Response) => {
     const result = await updateUserById({ id_users, name_users });
 
     if (result) return response.status(200).json({ data: result });
-
-    return response.status(500).json({ message: "deu ruim" });
+    throw new CustomError("Users not found", 404);
 };
 
 export const createUser = async (request: Request, response: Response) => {
