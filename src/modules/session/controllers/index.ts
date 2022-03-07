@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { IUser } from "interfaces";
+import * as yup from "yup";
 
 import { CustomError } from "../../../appError/custom-error.model";
 import checkPassword from "../../../util/checkPassword";
@@ -12,6 +13,17 @@ export const SessionController = async (
 ) => {
     const { email, password } = request.body;
 
+    const schema = yup.object().shape({
+        email: yup.string().email().required(),
+        password: yup.string().min(6).required(),
+    });
+
+    if (!(await schema.isValid({ email, password }))) {
+        throw new CustomError("Validate fails", 400, {
+            error: "validate fails",
+        });
+    }
+
     const user: IUser = await setSessionApp({ email, password });
 
     if (!user) {
@@ -20,7 +32,11 @@ export const SessionController = async (
 
     const { name_users, email_users, permission, password_hash } = user;
 
-    if (!checkPassword(password, password_hash)) {
+    console.log("*****************************");
+    console.log(checkPassword(password, password_hash));
+    console.log("*****************************");
+
+    if (!(await checkPassword(password, password_hash))) {
         throw new CustomError("Password does not match", 401, {
             error: "password does not match",
         });
