@@ -53,7 +53,7 @@ export const updateUserId = async (
     const { id_users, name_users } = request.body;
     const schema = yup.object().shape({
         id_users: yup.string().required(),
-        email_users: yup.string().email().required(),
+        name_users: yup.string().required(),
     });
 
     if (
@@ -69,8 +69,8 @@ export const updateUserId = async (
 
     const result = await updateUserById({ id_users, name_users });
 
-    if (result) return response.status(200).json({ data: result });
-    throw new CustomError("Users not found", 404);
+    return response.status(200).json({ data: result });
+    // throw new CustomError("Users not found", 404);
 };
 
 export const createUser = async (
