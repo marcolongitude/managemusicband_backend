@@ -34,7 +34,8 @@
     "swagger-ui-express": "^4.1.6",
     "ts-node": "^10.6.0",
     "tsyringe": "^4.6.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
