@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 
 import { CustomError } from "../../../appError/custom-error.model";
@@ -47,9 +48,15 @@ export const updateUserId = async (request: Request, response: Response) => {
 };
 
 export const createUser = async (request: Request, response: Response) => {
-    const { name_users, email_users, permission } = request.body;
+    const { name_users, email_users, permission, password } = request.body;
+    const password_hash = await bcrypt.hash(password, 8);
 
-    await createUserData({ name_users, email_users, permission });
+    await createUserData({
+        name_users,
+        email_users,
+        permission,
+        password_hash,
+    });
 
     return response.status(200).send();
 };

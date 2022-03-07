@@ -2,14 +2,9 @@ import { v4 as uuidv4 } from "uuid";
 
 import { PrismaClient as Model } from "@prisma/client";
 
-const model = new Model();
+import { IUser } from "../../../interfaces";
 
-interface IUser {
-    id_users: string;
-    name_users: string;
-    email_users: string;
-    permission: "super" | "admin" | "comum";
-}
+const model = new Model();
 
 export const getUsersData = async (): Promise<IUser[]> => {
     const listUsers = await model.users.findMany();
@@ -61,6 +56,7 @@ export const createUserData = async ({
     name_users,
     email_users,
     permission,
+    password_hash,
 }: Omit<IUser, "id_users">): Promise<void> => {
     await model.users.create({
         data: {
@@ -68,6 +64,7 @@ export const createUserData = async ({
             name_users,
             email_users,
             permission,
+            password_hash,
         },
     });
 };
