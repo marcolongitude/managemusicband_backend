@@ -1,16 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
+import { Prisma } from "@prisma/client";
+
 import { CustomError } from "./custom-error.model";
 
-/**
- * Custom error handler to standardize error objects returned to
- * the client
- *
- * @param err Error caught by Express.js
- * @param req Request object provided by Express
- * @param res Response object provided by Express
- * @param next NextFunction function provided by Express
- */
 function handleError(
     err: TypeError | CustomError,
     req: Request,
@@ -20,15 +13,35 @@ function handleError(
     let customError = err;
 
     if (!(err instanceof CustomError)) {
-        customError = new CustomError(
-            "Oh no, this is embarrasing. We are having troubles my friend"
-        );
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            console.log("xxxxxxxxxxxxxxxxxxxxxxxxx");
+            console.log(err);
+            if (
+                err.code === "P2025" ||
+                err.code === "P1001" ||
+                err.code === "P2000" ||
+                err.code === "P2002" ||
+                err.code === "P2003"
+            ) {
+                customError = new CustomError(
+                    "Oh no, this is embarrasing. We are having troubles my friend = prisma client",
+                    500,
+                    {
+                        meta: err.meta,
+                        codePrisma: err.code,
+                        stackTrace: err.stack,
+                    }
+                );
+            } else {
+                customError = new CustomError(
+                    "Oh no, this is embarrasing. We are having troubles my friend = prisma client",
+                    500,
+                    { stackTrace: err.stack }
+                );
+            }
+        }
     }
 
-    // we are not using the next function to prvent from triggering
-    // the default error-handler. However, make sure you are sending a
-    // response to client to prevent memory leaks in case you decide to
-    // NOT use, like in this example, the NextFunction .i.e., next(new Error())
     res.status((customError as CustomError).status).send(customError);
 }
 

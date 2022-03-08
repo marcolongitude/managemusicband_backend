@@ -1,29 +1,32 @@
-import { userInfo } from "os";
 import { v4 as uuidv4 } from "uuid";
 
-import { Prisma, PrismaClient as Model } from "@prisma/client";
+import { PrismaClient as Model } from "@prisma/client";
 
 import { CustomError } from "../../../appError/custom-error.model";
 import { IUser } from "../../../interfaces";
 
 const model = new Model();
 
-export const getUsersData = async (): Promise<IUser[]> => {
+interface IResponse {
+    data: IUser[] | IUser;
+}
+
+export const getUsersData = async (): Promise<IResponse> => {
     const listUsers = await model.users.findMany();
 
-    return listUsers;
+    return { data: listUsers };
 };
 
 export const getUserByIdData = async ({
     id_users,
-}: Pick<IUser, "id_users">): Promise<IUser> => {
+}: Pick<IUser, "id_users">): Promise<IResponse> => {
     const user = await model.users.findUnique({
         where: {
             id_users,
         },
     });
 
-    return user;
+    return { data: user };
 };
 
 export const getUserByEmailData = async ({
@@ -42,10 +45,6 @@ export const updateUserById = async ({
     id_users,
     name_users,
 }: Pick<IUser, "id_users" | "name_users">): Promise<IUser> => {
-    const userAlreadyExists = await getUserByIdData({ id_users });
-
-    if (!userAlreadyExists) throw new CustomError("User not found", 401);
-
     const user = await model.users.update({
         where: {
             id_users,

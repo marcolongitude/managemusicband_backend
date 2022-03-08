@@ -16,9 +16,12 @@ export const getUsers = async (
     request: Request,
     response: Response
 ): Promise<Response> => {
-    const result = await getUsersData();
+    const listAllUsers = await getUsersData();
 
-    if (result) return response.status(200).json({ data: result });
+    if (listAllUsers) {
+        const { data } = listAllUsers;
+        return response.status(200).json({ data });
+    }
     throw new CustomError("Users not found", 404);
 };
 
@@ -30,7 +33,9 @@ export const getUserById = async (
 
     const result = await getUserByIdData({ id_users });
 
-    if (result) return response.status(200).json({ data: result });
+    const { data } = result;
+
+    if (data) return response.status(200).json({ data });
     throw new CustomError("Users not found", 404);
 };
 
@@ -69,8 +74,8 @@ export const updateUserId = async (
 
     const result = await updateUserById({ id_users, name_users });
 
-    return response.status(200).json({ data: result });
-    // throw new CustomError("Users not found", 404);
+    if (result) return response.status(200).json({ data: result });
+    throw new CustomError("Users not found", 404);
 };
 
 export const createUser = async (
