@@ -1,0 +1,24 @@
+{
+  "name": "managemusicband_backend",
+  "version": "1.0.0",
+  "description": "Open source project for managing musical bands schedules",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcolongitude/managemusicband_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcolongitude/managemusicband_backend/issues"
+  },
+  "homepage": "https://github.com/marcolongitude/managemusicband_backend#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "typescript": "^4.5.4"
+  }
+}
